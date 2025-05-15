@@ -1,0 +1,10 @@
+#BSUB -J task1
+#BSUB -o output.txt
+#BSUB -e error.txt
+#BSUB -n 2                     # Кол-во потоков
+#BSUB -R "span[hosts=1]"       # Все потоки на одном узле
+#BSUB -W 00:05                 # Максимальное время выполнения (5 минут)
+#BSUB -q short                 # Очередь (проверьте имя очереди у вашего администратора)
+
+export OMP_NUM_THREADS=2
+./task1

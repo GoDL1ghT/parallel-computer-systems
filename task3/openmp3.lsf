@@ -1,0 +1,10 @@
+#BSUB -J array_ops
+#BSUB -o array_ops_output.txt
+#BSUB -e array_ops_error.txt
+#BSUB -n 8
+#BSUB -R "span[hosts=1]"
+#BSUB -W 00:05
+#BSUB -q short
+
+export OMP_NUM_THREADS=8
+./parallel_quicksort3
