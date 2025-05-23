@@ -45,7 +45,7 @@ int main() {
     }
     double end = omp_get_wtime();
 
-    printf("Parallel sort time: %.3f sec\n", end - start);
+    printf("Parallel time: %.5f seconds\n", end - start);
 
     free(arr);
     return 0;
