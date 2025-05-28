@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
         bubble_sort_seq(copy_array, ARRAY_SIZE);
         double end_seq = MPI_Wtime();
 
-        printf("Sequental time: %f\n", end_seq - start_seq);
+        printf("Sequential time: %f\n", end_seq - start_seq);
         free(copy_array);
     }
 
