@@ -36,7 +36,6 @@ int main(int argc, char *argv[]) {
     int chunk_size = SIZE / size;
     sub_array = malloc(chunk_size * sizeof(int));
 
-    // Замер времени только на корневом процессе
     if (rank == 0)
         start_time = MPI_Wtime();
 

@@ -156,10 +156,10 @@ INPUT_SIZES=(100 100000 100000000)
 CORES=(2 4 8)
 REPEATS=10
 EXECUTABLES=(
-  first=first.c
-  second=second.c
-  third=third.c
-  fourth=fourth.c
+  first=task1.c
+  second=task2.c
+  third=task3.c
+  fourth=task4.c
 )
 declare -A LSF_CONFIG
 LSF_CONFIG=(
