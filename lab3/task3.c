@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
         double start_seq = MPI_Wtime();
         elementwise_operations_seq(a, b, sum_seq, diff_seq, prod_seq, div_seq, ARRAY_SIZE);
         double end_seq = MPI_Wtime();
-        printf("Sequental time: %.4f\n", end_seq - start_seq);
+        printf("Sequential time: %.4f\n", end_seq - start_seq);
     }
 
     // Выделение памяти для локальных массивов
