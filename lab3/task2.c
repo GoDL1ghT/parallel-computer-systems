@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
         bubble_sort_seq(copy_array, ARRAY_SIZE);
         double end_seq = MPI_Wtime();
 
-        printf("Последовательная сортировка завершена за %f секунд.\n", end_seq - start_seq);
+        printf("Sequental time: %f\n", end_seq - start_seq);
         free(copy_array);
     }
 
@@ -175,7 +175,7 @@ int main(int argc, char **argv) {
     double end_par = MPI_Wtime();
 
     if (rank == ROOT) {
-        printf("Параллельная сортировка завершена за %f секунд.\n", end_par - start_par);
+        printf("Parallel time: %f\n", end_par - start_par);
         // print_array("Отсортированный массив", full_array, 100); // Только если нужно
         free(full_array);
     }
