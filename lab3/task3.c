@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
         double start_seq = MPI_Wtime();
         elementwise_operations_seq(a, b, sum_seq, diff_seq, prod_seq, div_seq, ARRAY_SIZE);
         double end_seq = MPI_Wtime();
-        printf("⏱️ Последовательная обработка завершена за %.4f секунд.\n", end_seq - start_seq);
+        printf("Sequental time: %.4f\n", end_seq - start_seq);
     }
 
     // Выделение памяти для локальных массивов
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
     double end_par = MPI_Wtime();
 
     if (rank == ROOT) {
-        printf("⏱️ Параллельная обработка завершена за %.4f секунд.\n", end_par - start_par);
+        printf("Parallel time: %.4f\n", end_par - start_par);
 
         // Сравнение результатов
         compare_results("сложения", sum_seq, sum_par, ARRAY_SIZE);
