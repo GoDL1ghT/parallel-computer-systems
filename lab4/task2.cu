@@ -34,23 +34,24 @@ void merge_sort_seq(float *array, int left, int right, float *temp) {
 
 // Параллельный Bitonic Sort на CUDA
 
-__global__ void bitonic_sort_step(float *dev_values, int j, int k) {
-    unsigned int i, ixj;
-    i = threadIdx.x + blockDim.x * blockIdx.x;
-    ixj = i ^ j;
+__global__ void bitonic_sort_kernel(float *data, int j, int k) {
+    unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= N) return;
+
+    unsigned int ixj = i ^ j;
 
     if (ixj > i) {
         if ((i & k) == 0) {
-            if (dev_values[i] > dev_values[ixj]) {
-                float temp = dev_values[i];
-                dev_values[i] = dev_values[ixj];
-                dev_values[ixj] = temp;
+            if (data[i] > data[ixj]) {
+                float tmp = data[i];
+                data[i] = data[ixj];
+                data[ixj] = tmp;
             }
         } else {
-            if (dev_values[i] < dev_values[ixj]) {
-                float temp = dev_values[i];
-                dev_values[i] = dev_values[ixj];
-                dev_values[ixj] = temp;
+            if (data[i] < data[ixj]) {
+                float tmp = data[i];
+                data[i] = data[ixj];
+                data[ixj] = tmp;
             }
         }
     }
@@ -62,12 +63,12 @@ void bitonic_sort(float *values) {
     cudaMalloc((void**)&dev_values, size);
     cudaMemcpy(dev_values, values, size, cudaMemcpyHostToDevice);
 
-    dim3 blocks(N / 1024);
-    dim3 threads(1024);
+    int threads = 1024;
+    int blocks = (N + threads - 1) / threads;
 
     for (int k = 2; k <= N; k <<= 1) {
         for (int j = k >> 1; j > 0; j >>= 1) {
-            bitonic_sort_step<<<blocks, threads>>>(dev_values, j, k);
+            bitonic_sort_kernel<<<blocks, threads>>>(dev_values, j, k);
             cudaDeviceSynchronize();
         }
     }
@@ -76,18 +77,6 @@ void bitonic_sort(float *values) {
     cudaFree(dev_values);
 }
 
-int is_sorted(float *arr, int size) {
-    for (int i = 0; i < size - 1; ++i)
-        if (arr[i] > arr[i + 1]) return 0;
-    return 1;
-}
-
-int compare_arrays(float *a, float *b, int size) {
-    for (int i = 0; i < size; ++i)
-        if (fabs(a[i] - b[i]) > 1e-5)
-            return 0;
-    return 1;
-}
 
 
 int main() {
